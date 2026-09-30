@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!-- The <html> tag is the root of your document. data-bs-theme="dark" tells Bootstrap to use its native dark mode colors globally. -->
+<html lang="en" data-bs-theme="dark">
+<head>
+    <!-- Sets the character encoding to UTF-8, ensuring special characters display correctly. -->
+    <meta charset="UTF-8">
+    <!-- Ensures the website scales properly on mobile devices by matching the width of the screen. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The title that appears on the browser tab. -->
+    <title>Felipe Ferreira Brasil | Portfolio</title>
+    
+    <!-- Imports Bootstrap 5.3 CSS directly from a CDN (Content Delivery Network). -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Imports Bootstrap Icons CDN to provide scalable SVG logos for LinkedIn and GitHub. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Connects to Google Fonts for custom typography. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&family=Roboto+Slab:wght@400;700&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* :root defines CSS variables that can be used anywhere. */
+        :root {
+            --main-green: #20c997; 
+        }
+
+        /* Enables smooth scrolling when clicking anchor links. */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Applies Schibsted Grotesk to the body and standard text elements. */
+        body, p, .lead, .card-text {
+            font-family: 'Schibsted Grotesk', sans-serif;
+        }
+
+        /* Applies Roboto Slab to all heading tags to give structure and emphasis. */
+        h1, h2, h3, h4, h5, h6, .display-3 {
+            font-family: 'Roboto Slab', serif;
+        }
+
+        /* Applies PT Sans Narrow to UI elements like buttons, dates, and navigation links. */
+        .btn, .email-text, .date, .card-subtitle, .badge, .carousel-indicators {
+            font-family: 'PT Sans Narrow', sans-serif;
+            letter-spacing: 0.5px; 
+        }
+
+        /* Custom utility class to force text to use your specific green variable. */
+        .text-custom-green {
+            color: var(--main-green) !important;
+        }
+        
+        /* Custom utility class to force borders to use your specific green variable. */
+        .border-custom-green {
+            border-color: var(--main-green) !important;
+        }
+
+        /* Specific styling for the email text. */
+        .email-text {
+            font-size: 1.2rem;
+            color: var(--main-green);
+            background-color: #212529; 
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            border: 1px dashed var(--main-green);
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        /* Custom outline button styling for the GitHub repo link inside the carousel. */
+        .btn-outline-light {
+            font-weight: 700;
+        }
+
+        /* =========================================
+           LIQUID GLASS BRAND ICON BUTTONS 
+           ========================================= */
+           
+        /* Base button styles with overflow hidden to contain the glass effect */
+        .icon-btn-linkedin, .icon-btn-github {
+            width: 60px; 
+            height: 60px;
+            border-radius: 50%; 
+            display: inline-flex;
+            justify-content: center; 
+            align-items: center; 
+            font-size: 1.8rem; 
+            text-decoration: none;
+            position: relative; /* Anchors the liquid glass animation */
+            overflow: hidden; /* Keeps the animation inside the circle */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* LinkedIn Specific Colors */
+        .icon-btn-linkedin {
+            background-color: #0a66c2;
+            color: white;
+        }
+
+        /* GitHub Specific Colors */
+        .icon-btn-github {
+            background-color: #24292e;
+            color: white;
+        }
+
+        /* Hover States: Scale up */
+        .icon-btn-linkedin:hover {
+            transform: scale(1.15); /* Increases size by 15% */
+            box-shadow: 0 6px 12px rgba(10, 102, 194, 0.4); 
+        }
+
+        .icon-btn-github:hover {
+            transform: scale(1.15); /* Increases size by 15% */
+            box-shadow: 0 6px 12px rgba(255, 255, 255, 0.1); 
+        }
+
+        /* The glass overlay element, starting as an invisible dot in the center */
+        .circle-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(2px); /* Creates the authentic glass refraction */
+            border-radius: 50%;
+            transform: translate(-50%, -50%); /* Keeps it perfectly centered */
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.4s ease-out;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        /* Expands the liquid circle when the mouse hovers over the button */
+        .icon-btn-linkedin:hover .circle-overlay, 
+        .icon-btn-github:hover .circle-overlay {
+            width: 120px; /* Grows rapidly past the edges of the 60px button */
+            height: 120px;
+            opacity: 1;
+        }
+
+        /* Elevates the icon graphic so it stays sharp above the blurred glass layer */
+        .icon-z {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sets a fixed height for the carousel items. */
+        .carousel-item {
+            height: 450px;
+            background-color: #1e2226; 
+            border-radius: 8px;
+        }
+
+        /* Pushes the text inside the carousel slightly up from the bottom. */
+        .carousel-caption {
+            bottom: 35%; 
+        }
+
+        /* Base state for scroll animations. */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; 
+        }
+        
+        /* Active state for scroll animations. */
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0); 
+        }
+    </style>
+</head>
+<body class="bg-dark text-light">
+
+    <!-- HERO SECTION (Header removed, page starts directly here) -->
+    <section id="hero" class="vh-100 d-flex align-items-center text-center fade-in">
+        <div class="container">
+            <h1 class="display-3 fw-bold text-white mb-3">Felipe Ferreira Brasil</h1>
+            <h2 class="h3 text-custom-green mb-4">Node.js, C, JavaScript, SQL | Desenvolvedor Full-Stack</h2>
+            <p class="lead text-light mx-auto mb-4" style="max-width: 650px;">
+                Computer Science student at UERJ seeking a junior developer role to apply my skills and grow within a team.
+            </p>
+            
+            <!-- BRAND ICON BUTTONS WRAPPER -->
+            <!-- gap-3 adds spacing between the two circular buttons. -->
+            <div class="mb-4 d-flex justify-content-center gap-3">
+                
+                <!-- LinkedIn Icon Button with Liquid Glass Overlay -->
+                <a href="https://linkedin.com/in/felipefbr/" target="_blank" class="icon-btn-linkedin shadow-sm" aria-label="LinkedIn Profile">
+                    <i class="bi bi-linkedin icon-z"></i>
+                    <div class="circle-overlay"></div>
+                </a>
+                
+                <!-- GitHub Icon Button with Liquid Glass Overlay -->
+                <a href="https://github.com/imlype" target="_blank" class="icon-btn-github shadow-sm" aria-label="GitHub Profile">
+                    <i class="bi bi-github icon-z"></i>
+                    <div class="circle-overlay"></div>
+                </a>
+                
+            </div>
+            
+            <div>
+                <span class="email-text">felipefbrasil10@gmail.com</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="container py-5 my-5 fade-in">
+        <h2 class="text-center text-custom-green fw-bold mb-4">About</h2>
+        <div class="card shadow border border-secondary text-bg-dark p-4">
+            <div class="card-body text-center">
+                <p class="fs-5 text-light mb-0">Hi there! I am currently studying Computer Science at UERJ, with a solid technical foundation built since my vocational training in IT. Currently focusing my studies and projects on Full-Stack Development, with an emphasis on Back-end.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education" class="container py-5 fade-in">
+        <h2 class="text-center text-custom-green fw-bold mb-4">Education</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 shadow border border-secondary text-bg-dark p-3">
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold text-white">Universidade do Estado do Rio de Janeiro (UERJ)</h4>
+                        <h6 class="card-subtitle mb-3 text-custom-green date">Apr 2026 - Nov 2030</h6>
+                        <p class="card-text fw-bold mb-1">Graduação, Computer Science</p>
+                        <p class="card-text text-light opacity-75 small">Expected graduation: 2030 | Evening classes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 shadow border border-secondary text-bg-dark p-3">
+                    <div class="card-body">
+                        <h4 class="card-title fw-bold text-white">Instituto Superior de Educação do Rio de Janeiro</h4>
+                        <h6 class="card-subtitle mb-3 text-custom-green date">Mar 2023 - Nov 2025</h6>
+                        <p class="card-text fw-bold mb-1">Ensino Médio Técnico em Informática</p>
+                        <p class="card-text text-light opacity-75 small">GPA: 7.6 | Completed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="container py-5 fade-in">
+        <h2 class="text-center text-custom-green fw-bold mb-4">Top Skills</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow border border-secondary border-top-0 border-custom-green text-bg-dark p-3" style="border-top-width: 4px !important; border-top-style: solid !important;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-3 text-white">Software Development</h5>
+                        <ul class="list-unstyled text-light">
+                            <li class="mb-2">Node.js, C</li>
+                            <li class="mb-2">JavaScript, PHP</li>
+                            <li>Java, Python, Kotlin</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow border border-secondary border-top-0 border-custom-green text-bg-dark p-3" style="border-top-width: 4px !important; border-top-style: solid !important;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-3 text-white">Project Management</h5>
+                        <ul class="list-unstyled text-light">
+                            <li class="mb-2">Full-Stack Development</li>
+                            <li class="mb-2">Agile & Organization</li>
+                            <li>Git Version Control</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow border border-secondary border-top-0 border-custom-green text-bg-dark p-3" style="border-top-width: 4px !important; border-top-style: solid !important;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold mb-3 text-white">Computer Hardware</h5>
+                        <ul class="list-unstyled text-light">
+                            <li class="mb-2">Cisco Certified</li>
+                            <li class="mb-2">Desktop & Laptop Hardware</li>
+                            <li>Networking Fundamentals</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS CAROUSEL SECTION -->
+    <section id="projects" class="container py-5 fade-in mb-5">
+        <h2 class="text-center text-custom-green fw-bold mb-4">Projects</h2>
+        
+        <div id="portfolioCarousel" class="carousel slide shadow rounded overflow-hidden border border-secondary" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#portfolioCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            </div>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="carousel-caption d-block">
+                        <h3 class="text-custom-green fw-bold display-6 mb-3">sv-downloader.vercel.app</h3>
+                        <p class="fs-5 text-light mx-auto" style="max-width: 700px;">
+                            A web application that allows you to easily download TikTok and Instagram videos completely free of watermarks.
+                        </p>
+                        <div class="mt-4">
+                            <!-- Using standard Bootstrap buttons for the project links as requested previously -->
+                            <a href="https://sv-downloader.vercel.app" target="_blank" class="btn btn-custom-green me-2" style="background-color: var(--main-green); color: #121212; border: none; font-weight: 700;">Visit Live App</a>
+                            <a href="https://github.com/imlype" target="_blank" class="btn btn-outline-light">GitHub Repo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-dark text-secondary border-top border-secondary text-center py-4 mt-5">
+        <p class="mb-0 date">&copy; 2026 Felipe Ferreira Brasil. Built with HTML, Bootstrap CSS, and JavaScript.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const faders = document.querySelectorAll(".fade-in");
+
+            const appearOptions = {
+                threshold: 0.15, 
+                rootMargin: "0px 0px -50px 0px" 
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("appear");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
